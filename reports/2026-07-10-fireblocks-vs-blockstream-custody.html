@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fireblocks vs. Blockstream: institutional bitcoin custody · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · CUSTODY</div>
+    <h1>Fireblocks vs. Blockstream: institutional bitcoin custody, and where our wedge is</h1>
+    <p class="sub">Fireblocks is a multi-chain custody infrastructure giant selling MPC key management to 80+ banks. Blockstream is a bitcoin-only, vertically integrated stack (mining, Liquid, treasury, open-source hardware). They're not really playing the same game.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Fireblocks valuation</span><span class="value">$8B (2022, last disclosed)</span></div>
+      <div class="chip"><span class="label">Fireblocks chains</span><span class="value">150+</span></div>
+      <div class="chip"><span class="label">Blockstream raise</span><span class="value">$210M · Oct 2024</span></div>
+      <div class="chip"><span class="label">Blockstream model</span><span class="value">bitcoin-only</span></div>
+    </div>
+    <div class="meta">2026-07-10 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          Fireblocks and Blockstream aren't direct substitutes. Fireblocks sells generalized multi-chain custody
+          infrastructure (MPC key management, a 150+ chain network, a regulated NY trust charter) to banks who need
+          to support many assets at once. Blockstream is bitcoin-only end to end — mining, Liquid Network, Bitcoin
+          treasury advisory, and open-source multisig hardware (Jade) — which is a narrower but more defensible
+          position for institutions whose mandate is specifically "hold bitcoin, minimize custodial surface area."
+          Our wedge is bitcoin-native purity and self-custody/collaborative-custody optionality, not feature parity
+          on multi-asset infrastructure. One flag: we couldn't confirm the "Fireblocks raised another round" premise
+          from the capture — no 2026 funding round shows up in search, only partnership expansions (see below).
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Company snapshots</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Fireblocks</h3>
+          <div class="prose">
+            <p>Multi-chain digital asset infrastructure platform. Pioneered the MPC-CMP protocol, splitting key
+            shares across the client, Fireblocks, and an independent recovery partner. Because MPC operates at the
+            cryptographic (ECDSA/EdDSA) layer, one implementation secures wallets across all supported chains at
+            once — bitcoin is just one of 150+.</p>
+            <p>Live in production with BNY Mellon, Revolut, Galaxy, and 80+ banks. The Fireblocks Network connects
+            2,400+ institutional counterparties and settles $70B+/month in self-custody, on-chain transactions.
+            Fireblocks Trust Company is chartered by the NY Dept. of Financial Services for qualified custody.</p>
+            <p>No new funding round found in 2026 — last disclosed raise is the $550M Series E (Jan 2022, $8B
+            valuation). 2026 activity has been partnership expansion: a Thales tie-up for bank-grade HSM security
+            (Feb 2026) and Canton Network integration for regulated tokenization/settlement (Feb 2026).</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Blockstream</h3>
+          <div class="prose">
+            <p>Bitcoin-only, vertically integrated: mining colocation, the Liquid Network (a bitcoin sidechain
+            securing $3B+ TVL and 19,000+ BTC bridged), Blockstream AMP for asset issuance, and Blockstream
+            Enterprise — a platform for corporates and governments to manage treasury/balance sheet via Liquid,
+            with FIX/REST integration into custodians and exchanges.</p>
+            <p>On the wallet/custody side: Blockstream Green (self-custody, singlesig or 2FA multisig, "Multisig
+            Shield" splits one key to the user's device and one to Blockstream infra) and Jade, an open-source
+            hardware wallet used in collaborative-custody products like Swan Vault (2-of-3 multisig — customer
+            holds two keys across two Jade devices, Swan holds a recovery key).</p>
+            <p>Raised $210M in Oct 2024 (led by Fulgur Ventures) explicitly to grow Layer-2 adoption, expand mining,
+            and grow Blockstream's own corporate Bitcoin treasury — one of the largest publicly known.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Architecture side by side</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dimension</th><th>Fireblocks</th><th>Blockstream</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Asset scope</td><td>150+ chains, multi-asset</td><td>Bitcoin only</td></tr>
+            <tr><td>Key model</td><td>MPC (threshold, off-chain refreshable)</td><td>Multisig (on-chain, hardware-key based)</td></tr>
+            <tr><td>Custody posture</td><td>Custodial infra + regulated trust co.</td><td>Self/collaborative custody, open-source hardware</td></tr>
+            <tr><td>Institutional network</td><td>2,400+ counterparties, 80+ banks live</td><td>Enterprise platform via Liquid, smaller network</td></tr>
+            <tr><td>Regulatory wrapper</td><td>NYDFS-chartered trust company</td><td>No trust charter; partners (e.g. Swan) hold that layer</td></tr>
+            <tr><td>Adjacent stack</td><td>Tokenization (Canton), stablecoin settlement</td><td>Mining, Layer-2 (Liquid), treasury advisory</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>We don't win by matching Fireblocks feature-for-feature on multi-chain MPC infrastructure — that's their
+        entire business and they have a multi-year head start plus a regulated trust charter and bank-scale sales
+        motion. The wedge is positioning against the thing Fireblocks structurally can't claim: <strong>bitcoin is
+        one of 150+ assets to them; it's the only asset to us.</strong></p>
+        <h3>Where that argument lands</h3>
+        <ul>
+          <li><strong>Strategic bitcoin reserves / corporate treasuries</strong> with bitcoin-only mandates — reduces
+          the case for paying for a general multi-chain custody platform when the mandate never touches the other
+          149 chains.</li>
+          <li><strong>Sovereignty-sensitive institutions</strong> — post-FTX, "not fully custodial" still sells.
+          Collaborative custody (2-of-3 multisig, customer holds majority control) via open-source Jade hardware is
+          a different trust model than handing keys to a platform, even a regulated one.</li>
+          <li><strong>Full-stack bitcoin story</strong> — mining, treasury, Layer-2 settlement (Liquid/AMP), and
+          custody-adjacent hardware in one vertically integrated company is a narrative Fireblocks can't tell; they
+          are infrastructure-only.</li>
+        </ul>
+        <h3>Where we're structurally behind</h3>
+        <ul>
+          <li>No regulated trust charter equivalent to Fireblocks Trust Co. — institutions that need that specific
+          wrapper go elsewhere or through a partner (as Swan does for Vault).</li>
+          <li>Institutional network effects: 2,400+ counterparties and 80+ live banks is a large moat we can't close
+          by out-marketing; the counter-positioning has to be "different tool for a different mandate," not
+          "cheaper Fireblocks."</li>
+        </ul>
+        <p>Sources: <a href="https://www.fireblocks.com/blog/fireblocks-trust-qualified-custody-proven-security">Fireblocks Trust</a>,
+        <a href="https://www.fireblocks.com/blog/mpc-vs-multi-sig">Fireblocks MPC vs. multisig</a>,
+        <a href="https://www.prnewswire.com/news-releases/fireblocks-launches-canton-support-to-expand-its-regulated-tokenization-and-settlement-infrastructure-302677536.html">Fireblocks × Canton (Feb 2026)</a>,
+        <a href="https://blog.blockstream.com/blockstream-green-bitcoin-self-custody/">Blockstream Green</a>,
+        <a href="https://blog.blockstream.com/blockstream-jade-to-power-swans-new-collaborative-custody-solution/">Jade × Swan Vault</a>,
+        <a href="https://blockstream.com/enterprise/">Blockstream Enterprise</a>,
+        <a href="https://blockstream.com/press-releases/2024-10-15-blockstream-secures-210m-dollars-led-fulgur-ventures-drive-layer-2-growth-expand-bitcoin-treasury/">Blockstream $210M raise (Oct 2024)</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
