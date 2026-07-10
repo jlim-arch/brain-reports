@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What this VPS should do overnight · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">OPS · AUTOMATION</div>
+    <h1>What this VPS should do overnight</h1>
+    <p class="sub">An audit of the brain repo's current workflow, checked against overnight-automation best practice,
+    plus a concrete list of what else this box could take on — for Mental Cache, and for Blockstream marketing —
+    while you sleep.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Repo audited</span><span class="value">/root/brain</span></div>
+      <div class="chip"><span class="label">Inbox backlog</span><span class="value">103 entries, 1 unprocessed</span></div>
+      <div class="chip"><span class="label">Concurrency guard</span><span class="value">flock — present</span></div>
+      <div class="chip"><span class="label">Retry / circuit breaker</span><span class="value">missing</span></div>
+    </div>
+    <div class="meta">2026-07-10 · repo audit + web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          The current setup — a cron-triggered <code>process-inbox.sh</code> that flocks a lockfile, runs a single
+          Claude Code prompt over Mental Cache's inbox, and appends handled ids to a flat processed-ids file — is a
+          sound minimal version of the pattern the automation-agent literature converges on (lock, checkpoint,
+          idempotent re-run). It's missing two things every guide flags as necessary once a job runs unattended for
+          months: a timeout/retry wrapper and a run summary that reaches you without you opening a log file. Beyond
+          fixing those, the highest-value overnight work for this box splits cleanly: keep doing inbox triage +
+          research reports for Mental Cache (already built), and extend the same report pipeline to a recurring
+          Blockstream competitive/SEO watch. I could not audit Ledger or Ssaem — this VPS's working directories are
+          scoped to <code>/root/brain</code> and <code>/root/brain-reports</code> only, so anything below is
+          domain-informed, not repo-verified, for those two.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What's actually running today</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>The pipeline, as built</h3>
+          <div class="prose">
+            <p><code>scripts/process-inbox.sh</code> is invoked under <code>flock -n /root/brain/.lock</code>, so a
+            second scheduled run exits immediately instead of racing the first — the right primitive, already in
+            place. It sources <code>.env</code> and runs one <code>claude -p</code> call against
+            <code>prompts/process-inbox.md</code>, logging to <code>logs/process-&lt;date&gt;.log</code>.</p>
+            <p>Idempotency is a flat file: <code>memory/processed-ids.txt</code> holds one handled entry id per line,
+            matched by 8-character prefix. Simple and it works, but it's append-only and already several hundred
+            lines with no compaction — fine for now, worth revisiting if this box ever tracks tens of thousands of
+            captures.</p>
+            <p>Routing (from <code>CLAUDE.md</code>): a "research …" note gets a web-researched brief published as a
+            formatted page via <code>scripts/publish-report.sh</code> (which rebuilds the index and pushes to the
+            Vercel-deployed <code>brain-reports</code> repo); actionable phrasing becomes a shaped task; no-note
+            captures get a light tidy pass and stay in the inbox.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Checked against best practice</h3>
+          <div class="prose">
+            <p>The pattern converges across current guides on cron-based agents: lock against overlap, checkpoint
+            progress so a restart resumes instead of repeating work, add retries so a transient API hiccup doesn't
+            silently break the run, and end with a status notification rather than a log file nobody reads.</p>
+            <ul>
+              <li><strong>Have it:</strong> overlap lock, checkpointed idempotency, a routing spec that keeps runs
+              small and defers deep research to explicit "research" captures.</li>
+              <li><strong>Missing:</strong> no timeout on the <code>claude -p</code> call (a stuck run just holds the
+              lock indefinitely — this session found exactly that: a stale lock and scratch files from an earlier
+              interrupted run were still sitting in the repo), no retry wrapper around transient failures, and no
+              "N processed / M failed, see report X" notification — success is currently only visible by opening
+              the log or the DB.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Gaps worth closing</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Gap</th><th>Why it matters</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>No run timeout</td><td>A hung run holds <code>.lock</code> forever; every later scheduled run
+            silently no-ops until someone notices</td><td>Wrap the <code>claude -p</code> call in <code>timeout
+            15m</code> and release the lock on exit</td></tr>
+            <tr><td>No retry on transient failure</td><td>A single dropped API call can break an otherwise-fine
+            night's batch with no automatic recovery</td><td>One retry with backoff around the <code>claude -p</code>
+            invocation before giving up and logging</td></tr>
+            <tr><td>No morning summary</td><td>Success/failure only visible by reading
+            <code>logs/process-*.log</code> or querying Mental Cache directly</td><td>Have the run write a one-line
+            digest entry back into Mental Cache (status <code>do</code>, tagged <code>#brain-run</code>) instead of
+            only appending to a log file</td></tr>
+            <tr><td>Unbounded processed-ids file</td><td>Flat file, append-only, already hundreds of lines</td>
+            <td>Not urgent — revisit if it starts affecting prefix-match performance</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What else this box could do overnight</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Mental Cache / personal (verified scope)</h3>
+          <div class="prose">
+            <p>This is the part already running and the part I can vouch for directly: inbox triage, research briefs
+            for "research …" captures, and now formatted reports for anything substantial — the Fireblocks/Blockstream
+            custody brief processed earlier today is the template. Natural next steps within this same repo:</p>
+            <ul>
+              <li>A weekly rollup report (reports already worth reading as a set, not just individually) summarizing
+              what got researched/tasked that week.</li>
+              <li>Resurfacing stale inbox entries — this run found a driving-test reminder that sat untouched since
+              January; a periodic "these have been sitting N+ days" nudge would catch that pattern automatically.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Blockstream marketing (domain-informed, not repo-verified)</h3>
+          <div class="prose">
+            <p>The report-publishing pipeline built for Mental Cache research generalizes directly to a recurring
+            competitive/SEO watch, since it's the same shape of work (research → cited brief → published page):</p>
+            <ul>
+              <li>Competitor moves in bitcoin custody/infra (the Fireblocks brief is a one-off version of this —
+              could become a standing weekly or biweekly cadence).</li>
+              <li>Landing page / SEO technical checks (broken links, meta/schema drift, ranking movement on core
+              enterprise-custody keywords) queued overnight, flagged only when something changed.</li>
+              <li>Ad creative sweeps (FB/Google ad libraries) for direct competitors, batched into the same
+              report format rather than a raw dump.</li>
+            </ul>
+            <p>I don't have this VPS wired to Blockstream's ad accounts, analytics, or a marketing repo, so none of
+            this is currently actionable from here — it would need credentials/access scoped in the same way Mental
+            Cache's Turso DB is, via a <code>.env</code> this box can read.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>Keep the current architecture — it already matches the two things that matter most (overlap locking,
+        idempotent re-runs). The cheapest next improvement is operational, not new capability: a timeout wrapper and
+        a one-line Mental Cache digest entry per run, so a stuck or failed night surfaces itself instead of waiting
+        to be noticed (as happened with this run's leftover lock and scratch files from an earlier interrupted
+        session).</p>
+        <p>The highest-leverage new <em>work</em>, not just plumbing, is pointing the report pipeline that already
+        exists at Blockstream competitive/SEO watch on a recurring cadence — it's the same research-then-publish
+        shape as the Mental Cache reports, just aimed at a different inbox. That requires deciding what credentials
+        this box should be trusted with beyond the Mental Cache DB.</p>
+        <p>Sources: <a href="https://www.mindstudio.ai/blog/build-ai-agent-runs-overnight">Building an AI agent that runs overnight</a>,
+        <a href="https://dev.to/toji_openclaw_fd3ff67586a/the-complete-guide-to-ai-agent-cron-jobs-and-scheduling-2c3f">Complete guide to AI agent cron jobs and scheduling</a>,
+        <a href="https://www.mindstudio.ai/blog/claude-code-routines-24-7-agents">Claude Code routines for 24/7 agents</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
