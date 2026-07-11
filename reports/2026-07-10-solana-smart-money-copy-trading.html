@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finding Solana smart money to copy-trade · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · SOLANA / COPY TRADING</div>
+    <h1>Finding Solana smart money, and whether copy trading it actually works</h1>
+    <p class="sub">There's a real, well-built toolchain for finding consistently profitable Solana wallets and mirroring their trades. The tools aren't the hard part — the hard part is that most leaderboard winners are surviving one lucky bet, not repeating skill, and by the time you can copy a wallet its edge is often gone.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Tracking tools</span><span class="value">Nansen, Arkham, Cielo, GMGN</span></div>
+      <div class="chip"><span class="label">Execution bots</span><span class="value">GMGN, Photon, Cielo, Trojan</span></div>
+      <div class="chip"><span class="label">Slippage on thin tokens</span><span class="value">1–10%</span></div>
+      <div class="chip"><span class="label">Signal threshold</span><span class="value">5–10 wallets, 48h cluster</span></div>
+    </div>
+    <div class="meta">2026-07-10 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          Yes, this is doable with off-the-shelf tools — no need to build anything. Use a wallet-analytics platform
+          (Nansen or Arkham) to find candidate wallets by realized PnL and win rate, cross-check them on a
+          Solana-native terminal (GMGN or Cielo) for consistency over time, then either mirror manually or use an
+          execution bot's built-in copy-trade feature (GMGN, Photon, Cielo all have one). The catch: PnL
+          leaderboards suffer from severe survivorship bias — they show who's winning right now, not who has a
+          repeatable edge, and a lot of "smart money" wallets got there from one concentrated memecoin bet. Treat
+          this as a signal-following strategy (buy when 5–10+ tracked wallets converge on a token within 48h), not
+          as "find one genius and clone them," and budget for slippage (1–10% on thin tokens) and rug-pull risk
+          eating into any edge.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The toolchain: tracking vs. execution</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Find & vet wallets (analytics layer)</h3>
+          <div class="prose">
+            <p><strong>Nansen</strong> — the deepest labeled-wallet dataset ("smart money" tags), clean PnL/holding
+            breakdowns, custom alerts. Premium tiers start around $99/mo. Best for initial candidate discovery.</p>
+            <p><strong>Arkham Intelligence</strong> — maps 800,000+ labeled addresses, shows historical PnL per
+            wallet, what a wallet is accumulating, and recurring patterns. Good for whale/entity identification,
+            not Solana-specific memecoin flow.</p>
+            <p><strong>Cielo</strong> — purpose-built wallet tracker across 30+ chains including Solana, with
+            Telegram/Discord alerts on wallet activity. Free tier tracks 10 wallets; Pro ($59/mo) tracks 200,
+            10x the Solana wallet allowance of free.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Execute the copy (trading layer)</h3>
+          <div class="prose">
+            <p><strong>GMGN</strong> — free to use, 1% fee per trade, combines a trading terminal, wallet
+            analytics, and built-in copy-trade execution in one product. Probably the single best starting point
+            since discovery and execution live in the same app.</p>
+            <p><strong>Photon</strong> — fast Solana-native execution terminal, token-discovery + security checks,
+            one-click trading. Execution-focused, pair it with a separate tracker for wallet discovery.</p>
+            <p><strong>Cielo</strong> — has a "track + copy" flow in addition to tracking, so it can also serve as
+            the execution layer, not just discovery.</p>
+            <p>Note: BullX discontinued trading as of June 1, 2026 — drop it from consideration despite older
+            reviews still mentioning it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>A workable process</h2>
+      <div class="prose">
+        <h3>1. Source candidates</h3>
+        <p>Pull wallet candidates from smart-money leaderboards (GMGN, Nansen) rather than trying to find them
+        manually. Filter for realized (not unrealized/paper) PnL, since paper gains inflate leaderboards with
+        wallets currently holding a bag that hasn't been sold yet.</p>
+        <h3>2. Vet for consistency, not just size</h3>
+        <p>Look at win rate, PnL <em>consistency over time</em> (not one spike), average holding period, and trade
+        frequency. A wallet with $10M in realized profit buying a new token is a stronger signal than social
+        hype — but a wallet that made $10M off one trade and has done nothing since is closer to a lottery ticket
+        than a strategy.</p>
+        <h3>3. Use clustering as the real signal</h3>
+        <p>Single-wallet copying is fragile. The more robust version of this strategy is watching for
+        <strong>5–10+ tracked smart-money wallets buying the same token within a 48-hour window</strong> — that
+        clustering indicates coordinated conviction and is a meaningfully stronger signal than any one wallet's
+        history.</p>
+        <h3>4. Re-vet constantly</h3>
+        <p>Today's winning wallet is tomorrow's rug victim. Don't set-and-forget a copy list — the whole point of
+        tools like Cielo/GMGN is that they let you keep re-checking activity and PnL in real time rather than
+        trusting a static leaderboard snapshot from last week.</p>
+        <h3>5. Pre-trade safety checks</h3>
+        <p>Before mirroring any buy: check liquidity depth, holder distribution/concentration, and contract
+        permissions (can the deployer mint more, disable selling, etc.) to screen out honeypots and rug pulls —
+        most bots (GMGN, Photon) surface some of this automatically, but it's worth a manual glance on anything
+        thin.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why this is harder than it looks</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Risk</th><th>What it means in practice</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Survivorship bias</td><td>Leaderboards show today's winners, not the hundreds of wallets that ran the same strategy and blew up. A top-PnL wallet may reflect skill, luck, or one concentrated bet — you can't tell which from the leaderboard alone.</td></tr>
+            <tr><td>Signal lag</td><td>By the time a wallet's buy shows up in your tracker and you execute, the early-mover edge on a fast-moving memecoin is often already gone.</td></tr>
+            <tr><td>Slippage</td><td>1–10% on low-liquidity tokens or large orders — enough to erase the edge on a marginal trade. Needs active slippage-tolerance tuning per trade.</td></tr>
+            <tr><td>Rug pulls</td><td>High-frequency, short-lifecycle scams are common on Solana's permissionless token launches; even a wallet you're copying can get caught by one.</td></tr>
+            <tr><td>MEV / front-running</td><td>Some bots charge extra (0.1–0.5%) for sandwich-attack protection — worth enabling, it's a small tax against a real risk.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for you</h2>
+      <div class="prose">
+        <p>Fastest path to something usable: open a free GMGN account (tracker + execution in one place, 1% fee,
+        no subscription), build a watchlist of 10–15 wallets sourced from its own smart-money leaderboard plus
+        Nansen's free tier, and start by watching — don't auto-copy — for a week to see how often wallets you'd
+        have picked actually cluster on the same token before it moves. Add Cielo's alerting on top once you have
+        a shortlist worth paying for (its Pro tier is $59/mo for 200 tracked wallets across chains, cheap relative
+        to what a single bad rug-pull copy costs).</p>
+        <p>Treat this as a small, actively-monitored side allocation, not a "set it and forget it" system — every
+        source above agrees the leaderboard-chasing version of this strategy is the weak one; the clustering /
+        conviction version is the one with a real edge.</p>
+        <p>Sources: <a href="https://coincodex.com/article/67019/wallet-trackers-solana/">Best Solana wallet trackers 2026</a>,
+        <a href="https://nansen.ai/solana-onchain-data">Nansen Solana on-chain data</a>,
+        <a href="https://www.walletmaster.tools/blog/best-solana-copy-trading-tools/">Best Solana copy trading bots 2026</a>,
+        <a href="https://medium.com/@moiofficial/axiom-trade-vs-gmgn-vs-bullx-neo-vs-photon-sol-solana-trading-platforms-c61b84547873">Axiom vs GMGN vs BullX vs Photon</a>,
+        <a href="https://vishalcrypta.medium.com/the-allure-and-pitfalls-of-tracking-smart-money-flows-in-crypto-14965483c7ff">The allure and pitfalls of tracking smart money</a>,
+        <a href="https://www.nansen.ai/post/how-to-analyze-blockchain-data-for-smart-money-movements">How to analyze blockchain data for smart money movements</a>,
+        <a href="https://web3.gate.com/crypto-wiki/article/rug-pulls-on-solana-prevention-and-detection-guide-20260106">Rug pulls on Solana: prevention and detection</a>,
+        <a href="https://docs.cielo.finance/discord-+-telegram-bots/getting-started">Cielo Telegram/Discord bot docs</a>,
+        <a href="https://cielo.finance/">Cielo Finance</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
