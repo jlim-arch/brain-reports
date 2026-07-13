@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ad creative sweep programs: what to build · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · CREATIVE OPS</div>
+    <h1>Ad creative sweep programs: what the tools do, and the best features to build</h1>
+    <p class="sub">"Creative sweep" isn't an established industry term — no agency or vendor uses it as a named program. What does exist is a mature category of creative-testing tooling (Motion, Foreplay, Madgicx, Revealbot, AdCreative.ai) that splits into three layers: research/briefing, test design/analysis, and rules-based automation. Below is what each layer actually does and which pieces are worth building into our own ad-ops stack.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Category maturity</span><span class="value">3 distinct tool layers</span></div>
+      <div class="chip"><span class="label">Typical fatigue window</span><span class="value">3–5 days</span></div>
+      <div class="chip"><span class="label">CTR drop by day 7</span><span class="value">20–40%</span></div>
+      <div class="chip"><span class="label">Point-tool pricing</span><span class="value">$40–$2,000/mo</span></div>
+    </div>
+    <div class="meta">2026-07-12 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          Flagging a false premise first: nothing in the industry is actually branded a "creative sweep program" —
+          searches turn up generic "creative testing" and "creative refresh" methodology, not a named category. What
+          John is likely picturing is the workflow those tools support: continuously rotating and refreshing ad
+          creative before it fatigues. The category splits into three layers that no single tool covers end to end —
+          <strong>research/briefing</strong> (Foreplay), <strong>test design and post-launch analysis</strong>
+          (Motion, Marpipe), and <strong>rules-based automation</strong> (Revealbot, Madgicx) — plus a separate
+          <strong>generation</strong> layer (AdCreative.ai) for producing variants at volume. We already run FB+Google
+          reporting and adset analysis manually (<code>ads-manager-fluid</code>); the highest-leverage build is a
+          fatigue-detection + rotation-rule layer on top of what we have, not a from-scratch creative-testing suite.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The three layers, and who owns each</h2>
+      <div class="grid3">
+        <div class="card">
+          <h3>Research &amp; briefing</h3>
+          <div class="prose">
+            <p><strong>Foreplay</strong> — swipe-file tool. Saves competitor ads from Meta/TikTok/LinkedIn into
+            boards, screenshots landing pages, tracks ad activity status. Its "AI Briefs" turns saved inspiration
+            into creative briefs/storyboards. "Spyder" does 24/7 competitor ad-library scraping with hook export.
+            $49–$99/mo.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Test design &amp; analysis</h3>
+          <div class="prose">
+            <p><strong>Motion</strong> — post-launch analytics. Doesn't design the test, but gives element-level
+            insight into which concepts are winning inside the live ad account. <strong>Marpipe</strong> plays a
+            similar role for experiment design. Best paired with a briefing tool upstream.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Rules-based automation</h3>
+          <div class="prose">
+            <p><strong>Revealbot</strong> — "Top Creatives"/"Top Audiences" tracking, bulk ad creation across
+            variants, and a rules engine for budget scaling, pausing underperformers, and scheduling. Reports pushed
+            to email/Slack. <strong>Madgicx</strong> overlaps here: pre-set + custom automation rules, "Smart
+            Filter" segmentation by funnel stage/country/device, and a briefing-to-designer pipeline (24h turnaround
+            on requested assets). $39–$99/mo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Feature comparison</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Tool</th><th>Layer</th><th>Core feature</th><th>Pricing</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Foreplay</td><td>Research/briefing</td><td>Swipe boards, competitor scraping, AI briefs</td><td>$49–$99/mo</td></tr>
+            <tr><td>Motion</td><td>Analysis</td><td>Element-level post-launch performance breakdown</td><td>Self-serve tier</td></tr>
+            <tr><td>Marpipe</td><td>Test design</td><td>Structured creative experiment design</td><td>Self-serve tier</td></tr>
+            <tr><td>Revealbot</td><td>Automation</td><td>Rules engine (scale/pause/schedule) + bulk creation</td><td>$99/mo (Pro)</td></tr>
+            <tr><td>Madgicx</td><td>Automation + briefing</td><td>Automation rules, funnel-stage filtering, designer pipeline</td><td>$39–$44/mo</td></tr>
+            <tr><td>AdCreative.ai</td><td>Generation</td><td>AI image/static variant generation from brand kit</td><td>Self-serve tier</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>We already do the manual version of the analysis layer — Mon/Wed/Fri FB+Google reports, 7d/30d window
+        checks before touching a campaign. The gap is upstream (systematic swipe-file/briefing) and downstream
+        (automated fatigue detection + rotation), not the analysis itself.</p>
+        <h3>Best features to build into our own program</h3>
+        <ul>
+          <li><strong>Fatigue detection, not just reporting.</strong> The category consensus is ads fatigue in
+          3–5 days with CTR dropping 20–40% by day 7. A simple rule (CTR/CPA delta vs. rolling 3-day baseline,
+          triggered per adset) into the existing dashboard would catch this before John has to eyeball it.</li>
+          <li><strong>A swipe-file board, scoped to bitcoin/crypto + fintech advertisers</strong> — Foreplay's core
+          idea, but narrow and internal rather than a paid general tool. Feeds creative briefs without a subscription.</li>
+          <li><strong>Rotation rules on top of <code>ads-manager-fluid</code></strong> — Revealbot/Madgicx's rules
+          engine is the most directly portable idea: pause-under-threshold, promote-winner, schedule-based rotation,
+          logged and pushed to a dashboard card (not Slack, per standing preference).</li>
+          <li><strong>Skip the generation layer for now.</strong> AdCreative.ai-style bulk static generation solves a
+          volume problem we don't have yet — worth revisiting only once briefing + rotation are running and creative
+          throughput becomes the bottleneck.</li>
+        </ul>
+        <p>Sources: <a href="https://www.adstellar.ai/blog/facebook-ad-creative-testing-software">AdStellar: Facebook ad creative testing software</a>,
+        <a href="https://www.get-ryze.ai/blog/meta-ads-creative-fatigue-refresh-with-ai">Ryze: Meta ads creative fatigue</a>,
+        <a href="https://adlibrary.com/posts/motion-vs-foreplay">AdLibrary: Motion vs. Foreplay</a>,
+        <a href="https://www.foreplay.co/post/madgicx-vs-revealbot-vs-foreplay">Foreplay: Madgicx vs. Revealbot vs. Foreplay</a>,
+        <a href="https://www.versaunt.com/blog/creative-testing-tools-compared-foreplay-motion-versaunt">Versaunt: creative testing tools compared</a>,
+        <a href="https://www.attnagency.com/blog/dtc-creative-testing-systematic-approach">ATTN Agency: systematic creative testing</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
