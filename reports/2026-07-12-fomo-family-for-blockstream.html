@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fomo.family, and what translates to a Blockstream app · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · PRODUCT</div>
+    <h1>fomo.family, and what translates to a Blockstream app</h1>
+    <p class="sub">fomo is a social-first memecoin/altcoin trading app: leaderboards, copy trading, and a referral loop, built by ex-dYdX/Uniswap/OpenSea operators with $19M raised. Its growth mechanics are genuinely sharp — but they're built for speculative multi-asset trading, which cuts against everything Blockstream's stack (Green, Jade, Liquid) stands for. The transferable pieces are the social/trust primitives, not copy trading itself.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Total funding</span><span class="value">$19M</span></div>
+      <div class="chip"><span class="label">Series A</span><span class="value">$17M · Benchmark</span></div>
+      <div class="chip"><span class="label">Fee model</span><span class="value">0.5% + referral split</span></div>
+      <div class="chip"><span class="label">Referral cut</span><span class="value">25% of friend's fees</span></div>
+    </div>
+    <div class="meta">2026-07-12 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          fomo's product is "social-first memecoin trading" — leaderboards of top traders, one-click copy trading,
+          live trade overlays on price charts, and a two-sided referral program (referrer earns 25% of a friend's
+          fees, friend gets 10% off). That's a strong growth engine for speculative multi-asset trading, but
+          <strong>copy trading and leaderboard-driven speculation are the opposite of Blockstream's positioning</strong>
+          — bitcoin-only, self-custody, "not your keys not your coins." Porting the mechanic wholesale would
+          undercut the trust story that differentiates us (see the <a href="/reports/2026-07-10-fireblocks-vs-blockstream-custody">Fireblocks
+          comparison</a>). What's worth taking is the underlying primitives — public leaderboards, social proof,
+          and a referral loop — applied to things we'd actually want people to be public and social about: verified
+          bitcoin holdings, treasury transparency, and wallet-adoption referrals, not trade-copying.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What fomo actually does</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Core mechanics</h3>
+          <div class="prose">
+            <p>Social feed for following top traders; a leaderboard ranked by 24h/7d/30d returns showing win rate,
+            total return, max drawdown, and asset mix. On a token's page, other traders' buy/sell actions are
+            overlaid directly on the price chart.</p>
+            <p>Copy trading: pick a trader, allocate capital, and their trades auto-replicate proportionally in your
+            account. Multi-chain (Solana, Base), gasless, Apple Pay funding, 0.5% transaction fee, instant
+            email/Apple-ID onboarding.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Growth loop</h3>
+          <div class="prose">
+            <p>Two-sided referral: referrer earns 25% of a referred friend's trading fees ongoing, the friend gets a
+            10% fee discount. Combined with public leaderboard placement (status-seeking) and cross-device
+            continuity ("open on phone, close on desktop"), the loop is built to spread through trader circles, not
+            paid acquisition.</p>
+            <p>Team is ex-dYdX/Uniswap/OpenSea; $19M total raised including a $17M Series A led by Benchmark, with
+            Polygon/Solana-affiliated angels — credible operators applying DeFi/NFT growth patterns to memecoin
+            trading.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Mechanic-by-mechanic: does it fit Blockstream?</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>fomo mechanic</th><th>Direct port?</th><th>Why / what to do instead</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Copy trading</td><td>No</td><td>Incompatible with self-custody, bitcoin-only positioning — implies custodial trade execution and speculative multi-asset behavior we don't want to encourage.</td></tr>
+            <tr><td>Performance leaderboard</td><td>Reframe</td><td>Swap "top trader returns" for a public, verifiable leaderboard of something honest to show off — e.g. largest transparent corporate BTC treasuries, or Liquid/AMP issuance volume.</td></tr>
+            <tr><td>Trade overlay on charts</td><td>Reframe</td><td>Could become on-chain activity overlays on Liquid Network / mempool data — informational, not trade-replication.</td></tr>
+            <tr><td>Two-sided referral (fee split)</td><td>Partial port</td><td>Green/Jade are free and non-custodial, so there's no fee to split — but a referral credit toward hardware (Jade) purchases, or an advisory-intro credit for Enterprise, follows the same shape.</td></tr>
+            <tr><td>Instant onboarding (email/Apple ID)</td><td>Yes, worth studying</td><td>Genuinely portable UX lesson — Green's onboarding friction vs. fomo's "sign up in seconds" is a fair benchmark regardless of the trading angle.</td></tr>
+            <tr><td>Cross-device continuity</td><td>Yes</td><td>"Open a trade on phone, close on desktop" maps directly to Green wallet session continuity — good pattern to benchmark against.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>The capture didn't specify which "Blockstream app" — Green (consumer self-custody wallet), the Jade
+        companion experience, or the Enterprise/AMP side. The ideas below span all three; treat this as a menu, not
+        a spec.</p>
+        <h3>Ideas worth exploring</h3>
+        <ul>
+          <li><strong>Transparency leaderboard, not a performance leaderboard.</strong> A public page ranking
+          verified corporate bitcoin treasuries (opt-in, proof-of-reserves style) — replicates fomo's status/social
+          proof loop without touching custody or trading.</li>
+          <li><strong>Referral credit for Jade hardware / Enterprise intros</strong> instead of a trading-fee split —
+          same two-sided growth shape, applied to a purchase or a qualified lead instead of a fee.</li>
+          <li><strong>Onboarding speed benchmark.</strong> Time Green's current onboarding against fomo's
+          "seconds, email or Apple ID" bar — this is the one mechanic that's a clean apples-to-apples UX comparison
+          regardless of product category.</li>
+          <li><strong>On-chain activity feed for Liquid/AMP</strong>, reframing fomo's live trade overlay into an
+          informational "what's moving on Liquid right now" view for Enterprise prospects — content, not a trading
+          signal.</li>
+        </ul>
+        <h3>Open questions</h3>
+        <ul>
+          <li>Which app did the capture actually mean — Green, Jade's companion app, or an Enterprise-facing
+          dashboard? The recommendation set narrows a lot once that's known.</li>
+          <li>Is there appetite for anything referral/growth-loop shaped at all, given Blockstream's enterprise
+          sales motion is relationship-driven rather than viral?</li>
+        </ul>
+        <p>Sources: <a href="https://fomo.family/">fomo.family</a>,
+        <a href="https://fomo.family/blog/learn/what-is-fomo/">fomo: What is fomo?</a>,
+        <a href="https://fomo.family/blog/learn/what-is-copy-trading/">fomo: What is copy trading?</a>,
+        <a href="https://finance.yahoo.com/news/fomo-debuts-groundbreaking-social-crypto-160000884.html">Yahoo Finance: fomo launch, funding</a>,
+        <a href="https://fomoappreferralcode.com/fomo-app-review/">fomo app review 2026</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
