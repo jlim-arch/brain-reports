@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Building a company brain for marketing agents · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · AI AGENTS</div>
+    <h1>Building a company brain for marketing agents</h1>
+    <p class="sub">From the Slack thread with Michael Chen (fact sheets + guidelines for our agents, markdown files
+    into GitHub): what a "company brain" actually is in 2026, the architecture the field has converged on, and how
+    it maps onto what you'd build for Blockstream marketing and Brady's team.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Trigger</span><span class="value">Hilite screenshot, Slack capture</span></div>
+      <div class="chip"><span class="label">Pattern</span><span class="value">Git-backed markdown, not a vector DB alone</span></div>
+      <div class="chip"><span class="label">Convention</span><span class="value">AGENTS.md / CLAUDE.md</span></div>
+      <div class="chip"><span class="label">Precedent you already run</span><span class="value">This brain repo + PRODUCT-FACTS.md</span></div>
+    </div>
+    <div class="meta">2026-07-16 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          What you and Michael sketched in Slack — "just fact sheets and common guidelines for our agents to
+          follow," uploaded as markdown into GitHub — is exactly the architecture the industry landed on in the
+          last few months, not a simplification of a more complex idea. The pattern is called a "company brain" or
+          "brand brain," and the converged best practice is a <strong>Git-backed directory of markdown files with
+          YAML frontmatter</strong>, read natively by coding agents (Claude Code, Cursor, Codex CLI, etc.) via a
+          root <code>CLAUDE.md</code>/<code>AGENTS.md</code>, with citations required so agent output traces back
+          to a specific file and section instead of hallucinating. Google Cloud formalized a version of this spec —
+          the Open Knowledge Format — on 2026-06-12, which is a signal the pattern has stabilized enough to
+          standardize. You already run a working instance of this exact architecture for yourself (this brain repo,
+          plus the locked <code>PRODUCT-FACTS.md</code> deck for enterprise copy) — the Blockstream marketing
+          version is the same shape, scaled to more agents and more content types.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What the screenshot showed</h2>
+      <div class="prose">
+        <p>Slack, 4:00–4:08pm: Michael Chen shares a Google Drive folder and says he'll "organize a lot of the
+        information that I have and upload into markdown files &gt; github &gt; your agent[s]." You reply that
+        would help feed "Brady's company brain," then clarify the scope down: <em>"actually is a bit more
+        complicated than it needs to sound... we basically just need fact sheets and common guidelines for our
+        agents to follow."</em> Michael separately mentions a "knowledge graph" he's already built that sounded
+        familiar to what you'd independently converged on. The thread ends with you proposing the biweekly
+        sync (Igor, Gabriel, Brady, you, Michael) to keep this moving — that's the linked task already shaped
+        and moved to <code>do</code>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What "company brain" means in the current field</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>The winning shape: Git + markdown, not a vector DB alone</h3>
+          <div class="prose">
+            <p>Multiple independent write-ups in the last few months converge on the same conclusion: plain
+            markdown files in versioned folders beat a pure vector-search knowledge base for agent-facing company
+            knowledge, because every major coding agent already reads Git natively and nothing else needs an API,
+            auth, or SDK — "the file system IS the API." A pure embedding store is good for fuzzy recall over raw
+            captures, but decisions and guidelines need to be an explicit, versioned, human-editable file an agent
+            can cite by path.</p>
+            <p>The two-layer pattern some teams use: a vector layer over raw unprocessed captures (Slack threads,
+            docs, competitor pages — the evidence), and a curated markdown wiki layer over promoted decisions (the
+            guidelines and facts agents actually operate from). Only the second layer needs to be authoritative;
+            the first is search convenience.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Open Knowledge Format (OKF) — Google Cloud, 2026-06-12</h3>
+          <div class="prose">
+            <p>An open, vendor-neutral spec for exactly this: a directory of markdown files, one per concept, YAML
+            frontmatter with a required <code>type</code> field plus optional title/description/tags, interlinked
+            with normal markdown links. <code>index.md</code> and <code>log.md</code> are reserved filenames for
+            directory listings and change history. It's a formalization of a pattern that was already emerging
+            informally — worth knowing the name exists now, not worth over-indexing on adopting the spec literally
+            for an internal repo of this size.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Concrete structure to steal</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Element</th><th>What it does</th><th>Applies to the Blockstream version</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Root <code>CLAUDE.md</code> / <code>AGENTS.md</code></td><td>Tells every agent how the repo is
+            organized, what conventions to follow, what to do when new source material arrives — read natively by
+            Claude Code, Cursor, Codex CLI, Copilot, and most other coding agents as of 2026</td><td>You already
+            have this pattern in this brain repo; a Blockstream-marketing equivalent would sit at the root of
+            whatever repo Michael's markdown files land in</td></tr>
+            <tr><td>Fact sheets, one file per concept</td><td>Product facts, pricing, positioning, ICP/personas,
+            forbidden language — small, stable, source-of-truth files rather than one giant doc</td><td>Direct
+            match for your existing <code>PRODUCT-FACTS.md</code> (locked to the Jan 2026 deck) — that's already
+            proof this works for you</td></tr>
+            <tr><td>Guidelines file(s) per function</td><td>Marketing, sales, and product each get a short usage
+            guide: output format, mandatory rules, channel-specific constraints</td><td>Ad copy vs. landing-page
+            copy vs. enterprise-deck copy are different artifacts pulling from the same fact sheets — worth
+            splitting rather than one shared style doc</td></tr>
+            <tr><td>Citation requirement</td><td>Agent output cites the file/section a claim came from
+            (<code>[Source: product-facts.md#custody]</code>) — forces grounding, makes hallucination visible
+            instead of silent</td><td>Directly enforceable the same way this brain is instructed to fact-check and
+            cite in reports</td></tr>
+            <tr><td>Update discipline</td><td>"Agents read what's there, not what you meant to update" — commit
+            changes into the right file immediately, don't let a doc go stale while decisions move on</td><td>The
+            biggest real risk for a Blockstream version — product facts change (deck revisions), and a stale fact
+            sheet produces confidently wrong ad copy</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>You don't need to build anything novel here — you need to formalize what you're already doing in two
+        places (this brain repo, <code>PRODUCT-FACTS.md</code>) and extend it to the rest of Blockstream marketing
+        with Michael and Brady's team. Concretely, for the biweekly: propose a shared repo (or a folder in an
+        existing one) with a root <code>AGENTS.md</code>, one markdown file per fact/topic (product facts, ICP,
+        brand voice, forbidden language, channel-specific rules), and a hard rule that agent-generated copy cites
+        the file it drew from. That's the "not complicated" version you already scoped it down to in the thread —
+        the research just confirms that's the right instinct, not an oversimplification.</p>
+        <p>Open question for the sync: whether Michael's existing "knowledge graph" should become the vector/raw
+        layer (evidence) feeding into a smaller curated markdown wiki (decisions), or whether it's simple enough to
+        skip that split entirely and go straight to markdown files, given the team is small. Worth asking him to
+        show what he's already built before deciding.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Sources</h2>
+      <div class="prose">
+        <ul>
+          <li><a href="https://flowtivity.ai/blog/google-open-knowledge-format/">Google Open Knowledge Format: How Plain Markdown Files Are Becoming the Brain of AI Agents</a></li>
+          <li><a href="https://www.productmap.io/blog/git-product-knowledge-repository-ai-agents">Set up a Git knowledge repository that every AI agent reads</a></li>
+          <li><a href="https://agenticbrand.ai/p/the-proper-way-to-build-an-agentic-brand-brain">The Proper Way To Build An Agentic Brand Brain</a></li>
+          <li><a href="https://extency.com/blog/markdown-versioned-folders-agent-brain-2026">The Best "Brain" for Business Agents Is Just Versioned Folders of Markdown Files</a></li>
+          <li><a href="https://sandsdx.com/perspectives/executive/company-brain-for-ai-agents/">Your AI agents need a company brain: how to build one</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
