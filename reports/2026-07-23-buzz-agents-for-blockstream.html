@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buzz, and 5 agents worth launching on it for Blockstream · brain reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">RESEARCH · AI AGENTS</div>
+    <h1>Buzz, and 5 agents worth launching on it for Blockstream</h1>
+    <p class="sub">Jack Dorsey's Block shipped Buzz on 2026-07-21 — an open-source, Nostr-based Slack+GitHub
+    replacement where AI agents get their own cryptographic identity and sit natively alongside humans in chat and
+    code review. It's also the natural runtime for the "company brain for marketing agents" idea you and Michael
+    Chen sketched in Slack (see the 2026-07-16 report) — Buzz is where those agents would actually live and act,
+    not just where the fact sheets get stored.</p>
+    <div class="chips">
+      <div class="chip"><span class="label">Launched</span><span class="value">2026-07-21 · Block</span></div>
+      <div class="chip"><span class="label">License</span><span class="value">Apache 2.0, open source</span></div>
+      <div class="chip"><span class="label">Protocol</span><span class="value">Nostr — decentralized, self-sovereign</span></div>
+      <div class="chip"><span class="label">Maturity</span><span class="value">Early — desktop only, no mobile yet</span></div>
+    </div>
+    <div class="meta">2026-07-23 · web research · brain</div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Bottom line</h2>
+      <div class="callout">
+        <div class="icon">→</div>
+        <div class="body">
+          Buzz is a workspace where every human <em>and</em> every AI agent holds its own cryptographic keypair,
+          not an account owned by the platform — a human owner signs a narrowly-scoped authorization, and the agent
+          then signs its own messages, code reviews, and workflow runs under that identity. Every action (chat
+          message, review approval, git event) becomes one signed entry in a single hash-chained audit log. That's
+          a genuinely good fit for Blockstream specifically — self-sovereign identity and a signed audit trail is
+          the same ethos as the product line (Liquid, Green, Jade), so adopting it isn't just functionally useful,
+          it's on-brand. It's also model-agnostic (works with Claude Code, Codex, Block's own goose), so it doesn't
+          lock the team into one vendor. Caveat: it's four days old and explicitly early-stage — mobile and some
+          workflow-approval features aren't finished — so this is a pilot-one-agent situation, not a
+          replace-Slack-this-quarter situation.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What Buzz actually is</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Identity &amp; audit model</h3>
+          <div class="prose">
+            <p>Every participant — human or agent — has a keypair that belongs to them, portable across any
+            Nostr-compatible system, not tied to Buzz's servers. An agent's owner signs a scoped authorization
+            (what it's allowed to do); the agent then signs its own work, so there's always a clear record of
+            who authorized what.</p>
+            <p>Every message, reaction, workflow step, review approval, and git event is one signed event in a
+            single hash-chained log — the same audit trail applies whether the actor was a person or a process.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>What it replaces</h3>
+          <div class="prose">
+            <p>Channels, threads, DMs, voice, media sharing — the Slack half. Git hosting and code review — the
+            GitHub half. Automated workflows that agents can trigger and humans can approve — the missing glue
+            between the two that today lives in a patchwork of Zapier/bots/CI.</p>
+            <p>Self-hostable, or Block runs a managed version. Desktop clients ship now for macOS/Windows/Linux;
+            mobile and some workflow-approval UI are still in progress.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5 agent candidates for Blockstream</h2>
+      <div class="prose">
+        <p>Ranked by how directly they fit your actual remit (ad campaigns, landing pages, SEO, enterprise
+        marketing) and how much they specifically benefit from Buzz's architecture — not just "any AI agent could
+        do this in Slack too."</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Agent</th><th>What it does</th><th>Why Buzz specifically</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Ship → Story</strong></td>
+              <td>Watches git tag/merge events on Blockstream's repos (Liquid, Greenlight, Jade firmware, etc.)
+              and drafts a marketing-ready changelog/social/blog blurb the moment a release ships, posting it to
+              #marketing for review.</td>
+              <td>This only works because chat and git sit in <em>one</em> signed event log. In Slack+GitHub this
+              needs custom webhook glue; here it's the platform's native shape.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Launch QA</strong></td>
+              <td>Reviews new landing pages and ad campaign assets (broken links, UTM tracking, required
+              disclaimers) before they go live, gated as an actual reviewer via Buzz's workflow-approval step.</td>
+              <td>Direct fit to your job today. Uses the agent-as-reviewer primitive with real teeth — it can
+              block a launch, not just leave a comment.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Competitive Intel</strong></td>
+              <td>Monitors competitor moves (custody, Lightning, Bitcoin L2 players) and posts a digest with
+              suggested response angles to a dedicated channel.</td>
+              <td>Extension of research you're already doing by hand (fomo.family, the FOMO.family analysis on
+              your calendar) — an agent with a persistent identity in the channel means the digest has continuity
+              and a reviewable history, not a one-off doc.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Enterprise Handoff</strong></td>
+              <td>Sits in a shared marketing↔enterprise-sales channel, drafts one-pagers or case-study snippets
+              on request, keeps collateral in sync with what prospects are actually asking.</td>
+              <td>Cross-functional visibility is the point — one agent identity that both teams can see acting,
+              instead of marketing assets going stale in a drive sales doesn't watch.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>SEO &amp; Content Pulse</strong></td>
+              <td>Scheduled audits of published content and landing pages — on-page SEO fixes, meta/alt-text
+              drafts, keyword and competitor content tracking — posted as a weekly digest.</td>
+              <td>Lowest novelty of the five (this could run as a cron job anywhere), but still benefits from a
+              signed, reviewable history of what it flagged and when.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What it means for us</h2>
+      <div class="prose">
+        <p>Don't launch all five at once — Buzz is four days old and self-admittedly not ready for a full team
+        migration yet. The company-brain thread with Michael Chen already gives you the fact-sheet/guideline layer
+        those agents would read from; Buzz would be where they actually post, review, and act with an identity
+        people can hold accountable.</p>
+        <h3>Suggested order</h3>
+        <ul>
+          <li><strong>Pilot #2 (Launch QA) or #1 (Ship → Story) first</strong> — both have a clear, narrow scope
+          and a visible pass/fail the first time they run, so you'll know quickly if the agent identity/permission
+          model is trustworthy enough to build on.</li>
+          <li>Give each agent its own scoped keypair/authorization rather than one shared "marketing bot" identity
+          — that's the whole point of Buzz's model, and it keeps the audit trail meaningful per-agent.</li>
+          <li>Decide self-host vs. Block's managed version early — self-hosting matches Blockstream's own
+          self-custody positioning, but is more setup for a four-day-old platform.</li>
+        </ul>
+        <h3>Open questions</h3>
+        <ul>
+          <li>Does Blockstream engineering already have a Buzz opinion, or would marketing be the first team to
+          touch it? Worth checking before building against it.</li>
+          <li>Is there a workflow-approval feature gap (mobile, some approval UI still unfinished per the
+          coverage) that would block Launch QA specifically from having real teeth on day one?</li>
+        </ul>
+        <p>Sources:
+        <a href="https://techcrunch.com/2026/07/21/jack-dorsey-is-taking-on-slack-with-buzz-a-group-chat-platform-for-teams-and-their-ai-agents/">TechCrunch: Jack Dorsey is taking on Slack with Buzz</a>,
+        <a href="https://decrypt.co/374026/jack-dorseys-block-launches-buzz-a-nostr-based-slack-and-github-rival-for-ai-agents">Decrypt: Block launches Buzz</a>,
+        <a href="https://daily.dev/posts/jack-dorsey-launches-buzz-an-open-source-workspace-that-gives-ai-agents-their-own-cryptographic-ide-hgwavymmw">daily.dev: Buzz gives AI agents their own cryptographic identity</a>,
+        <a href="https://www.tftc.io/buzz-block-nostr-ai-agent-workspace-launch">TFTC: Block ships Nostr-native AI agent workspace</a>,
+        <a href="https://github.com/block/buzz">github.com/block/buzz</a>.</p>
+      </div>
+    </section>
+
+    <footer>fluid edition · /blockstream dashboards · generated by brain</footer>
+  </main>
+</body>
+</html>
